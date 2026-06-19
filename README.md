@@ -15,12 +15,17 @@ These checklists distill what founders actually need to track at each stage — 
 | [Pre-Series A Legal Diligence](checklists/pre-series-a-diligence.md) | What investors' counsel will ask for, and what to clean up before they do |
 | [Cap Table Hygiene](checklists/cap-table-hygiene.md) | Keeping your ownership records accurate, defensible, and financing-ready |
 | [Post-Money SAFE Conversion](checklists/post-money-safe-conversion.md) | How post-money SAFEs convert at a priced round and what to model first |
+| [Term Sheet Negotiation](checklists/term-sheet-negotiation.md) | The economics vs. control terms to fight for in a Series A term sheet |
+| [Equity Grants & 83(b)](checklists/equity-grants-83b.md) | Founder/employee equity hygiene — vesting, 83(b), IP assignment, option grants |
+| [Board & Governance](checklists/board-and-governance.md) | Board composition, protective provisions, and founder control at each round |
 | [Fundraising Data Room](checklists/fundraising-data-room.md) | The folder structure and documents to assemble before a raise |
 | [M&A Sell-Side Prep](checklists/ma-sell-side-prep.md) | What to organize and de-risk before running an acquisition process |
 
 ## Free tools
 
 - **[SAFE Dilution Calculator](https://blegal.ai/tools/safe-dilution-calculator)** — model exactly how post-money SAFEs dilute founders when they convert at a priced round. Free and embeddable.
+- **[Founder Dilution Calculator](https://blegal.ai/tools/founder-dilution-calculator)** — see how founder ownership compounds down across seed, Series A, B, and beyond. Free and embeddable.
+- **[Startup & Venture Law Glossary](https://blegal.ai/knowledge/glossary)** — plain-English definitions of the terms in these checklists.
 
 ## Deeper reading
 
