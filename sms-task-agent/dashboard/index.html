@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Agent</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>📸 Task Agent</h1>
+    <div class="header-actions">
+      <button id="insights-btn" class="ghost">What I've learned</button>
+      <button id="settings-btn" class="ghost">⚙︎ Settings</button>
+    </div>
+  </header>
+
+  <main>
+    <div id="filters" class="filters"></div>
+    <div id="task-list" class="task-list">
+      <p class="empty">Loading…</p>
+    </div>
+  </main>
+
+  <!-- Settings modal -->
+  <dialog id="settings-modal">
+    <h2>Settings</h2>
+    <label>Backend URL
+      <input id="api-url" type="url" placeholder="https://your-backend.vercel.app">
+    </label>
+    <label>Dashboard API key
+      <input id="api-key" type="password" placeholder="DASHBOARD_API_KEY value">
+    </label>
+    <div class="modal-actions">
+      <button id="settings-save">Save</button>
+    </div>
+  </dialog>
+
+  <!-- Insights modal -->
+  <dialog id="insights-modal">
+    <h2>What the agent has learned</h2>
+    <div id="insights-body"><p class="empty">Loading…</p></div>
+    <div class="modal-actions">
+      <button onclick="document.getElementById('insights-modal').close()">Close</button>
+    </div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
