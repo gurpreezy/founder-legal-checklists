@@ -98,6 +98,12 @@ factored for this):
 
 - [ ] Decide repo location (merge PR #1 into founder-legal-checklists, or move to standalone repo).
 - [ ] Switch routing model to Haiku/Sonnet; tune effort.
+- [ ] Upgrade the intake prompt + schema to **interpretive** extraction (infer implicit
+      action, phrase task as the user's next step, mark stated-vs-inferred deadline,
+      FYI-vs-action flag). No drafting yet.
+- [ ] Add forced "why?" on task edits; store the reason and feed it back into intake context.
+- [ ] Confirm the dashboard is the Claude-free editing surface (it already is — CRUD only,
+      no LLM at edit time); add the reason-capture modal and full-field editing.
 - [ ] Add encrypted HTTPS upload endpoint alongside the Twilio webhook (hybrid ingress).
 - [ ] Add envelope encryption of the screenshot before storage; decrypt via a backend
       endpoint for the dashboard (replaces the raw signed URL for encrypted images).
@@ -106,3 +112,47 @@ factored for this):
 - [ ] Build the iOS Shortcut for the encrypted upload (one-button / back-tap / Action button).
 - [ ] Test end-to-end with live credentials (first-deploy debugging expected around the
       Supabase client calls and the Twilio-signature-behind-a-proxy logic).
+
+---
+
+## 7. Confirmed scope from review (interpretation, learning, editing)
+
+These three were confirmed in review and supersede the "capture-only" MVP behavior.
+
+### 7a. Interpretive extraction (chosen level)
+Screenshots will usually NOT be obvious tasks — they'll be emails, questions, or messages
+with an *implicit* need for a response. The intake prompt must:
+- Infer the implicit action and phrase the task as **the user's next step**
+  (e.g. "Reply to Jane confirming the signed term sheet was sent" — not "Email from Jane").
+- Distinguish **needs-a-response vs. FYI/reference** and flag it.
+- Extract deadline + priority, marking each as **stated** (in the content) vs. **inferred**
+  (from tone/context) so a fabricated due date is never trusted as fact.
+- Reason only from what is visible in the screenshot — it cannot see thread context that
+  isn't in frame. Not chosen (yet): "draft-and-suggest" (drafting the actual reply).
+
+Honest limits to design around: it will sometimes misjudge FYI-vs-action, and can invent
+specifics if unconstrained — the confidence score + dashboard override + stated/inferred
+marking are the safety net.
+
+### 7b. Forced "why?" on edit (learning upgrade)
+When the user edits a task, the interface **requires a short reason**, which becomes training
+signal. This extends learning from routing-only (today) to **interpretation quality** too:
+- Reason is stored on the learning example (add a `reason`/`rationale` field to
+  `routing_examples`) and fed back into the intake prompt as few-shot context.
+- Applies to interpretation edits (e.g. "Reply to Jane" → "Call Jane"), not just re-routing.
+
+**Open calibration:** user's stated preference is "any edit asks why." Risk: requiring a
+reason on trivial edits (typo fix, mark-done) breeds annoyance and junk reasons ("." to
+dismiss), which pollutes training data. Recommended tuning: require the reason on
+signal-bearing fields (list, due date, priority, interpreted action/title) and let trivial
+edits through. Default to the user's preference; treat this as a tunable.
+
+**Bounded memory:** reasons/examples fed into intake must stay bounded (most-relevant recent
+ones) to control prompt size + cost — same approach as the current `recent_routing_examples`.
+
+### 7c. Claude-free editing interface (already the architecture)
+"Pull up the task list on a screen and edit without talking to Claude" is already how it
+works — **Claude is only called at intake** (new screenshot). The dashboard is pure CRUD; no
+LLM runs on view/edit/delete. Additions needed: the reason-capture modal (7b) and clean
+full-field editing. No conflict with learning — the reason is stored and used *later* at
+intake, so editing stays Claude-free.
